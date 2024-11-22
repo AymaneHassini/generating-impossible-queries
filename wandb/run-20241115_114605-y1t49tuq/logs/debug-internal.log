@@ -1,0 +1,21 @@
+{"time":"2024-11-15T11:46:05.186821421+01:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-11-15T11:46:05.186869194+01:00","level":"INFO","msg":"created symlink","path":"/home/nightstalker/Projects/ml/advanced_ai_data_filter/wandb/run-20241115_114605-y1t49tuq/logs/debug-core.log"}
+{"time":"2024-11-15T11:46:05.191622978+01:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-11-15T11:46:05.196328773+01:00","level":"INFO","msg":"created new stream","id":"y1t49tuq"}
+{"time":"2024-11-15T11:46:05.196347202+01:00","level":"INFO","msg":"stream: started","id":"y1t49tuq"}
+{"time":"2024-11-15T11:46:05.196354093+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"y1t49tuq"}}
+{"time":"2024-11-15T11:46:05.196367187+01:00","level":"INFO","msg":"sender: started","stream_id":{"value":"y1t49tuq"}}
+{"time":"2024-11-15T11:46:05.196394534+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"y1t49tuq"}}
+{"time":"2024-11-15T11:46:05.496666013+01:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-11-15T11:46:05.497264655+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-15T11:46:30.894194163+01:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2024-11-15T11:46:30.896494158+01:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2024-11-15T11:46:30.897862027+01:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2024-11-15T11:46:30.899710136+01:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2024-11-15T11:46:30.913603473+01:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2024-11-15T11:46:30.915725425+01:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2024-11-15T11:46:30.922889937+01:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2024-11-15T11:46:30.92506261+01:00","level":"INFO","msg":"Resuming system monitor"}
+{"time":"2024-11-15T11:46:30.929389386+01:00","level":"INFO","msg":"Pausing system monitor"}
+{"time":"2024-11-15T12:30:19.889066209+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 10.126.31.65:40518->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2024-11-15T12:30:23.154282207+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/mehdinejjar-al-akhawayn-university/huggingface/y1t49tuq/file_stream\": read tcp 10.126.31.65:54230->35.186.228.49:443: read: connection reset by peer"}
