@@ -24,3 +24,5 @@ model.safetensors
 connection.py
 .ipynb_checkpoints/
 __pycache__
+wandb
+checkpoint
