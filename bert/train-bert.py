@@ -17,7 +17,7 @@ device
 
 checkpoint = "bert-base-cased"
 
-data_path = "../dataset/dataset-all.csv"
+data_path = "../dataset/dataset-macth-score.csv"
 df = pd.read_csv(data_path)
 df['text'] = df['text'].apply(lambda x: x.replace('\n', '').replace('*', ''))
 
@@ -134,7 +134,7 @@ training_args = TrainingArguments(
       save_strategy="steps",
       logging_steps=50,
       load_best_model_at_end=True,
-      report_to="wandb",
+    #   report_to="wandb",
 )
 
 trainer = Trainer(

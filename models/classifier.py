@@ -7,7 +7,8 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 training_args = TrainingArguments(
      "tmp", 
-      disable_tqdm=True
+      disable_tqdm=True,
+      run_name='generate-impossible-query',
 )
 
 def load_classifier_distilbert():
