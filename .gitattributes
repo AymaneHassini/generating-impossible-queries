@@ -1,0 +1,2 @@
+checkpoint/*.bin filter=lfs diff=lfs merge=lfs -text
+checkpoint/*.safetensors filter=lfs diff=lfs merge=lfs -text
