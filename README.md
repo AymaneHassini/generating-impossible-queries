@@ -3,8 +3,6 @@
 [![SSRN Preprint](https://img.shields.io/badge/SSRN-Preprint-b31b1b)](https://ssrn.com/abstract=5071808)  
 ![Pipeline Architecture](docs/images/cas-sysarch.pdf)
 
-## Features
-
 ```python
 FEATURES = [
     "Multimodal query processing (text + images + documents)",
