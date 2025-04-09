@@ -34,10 +34,10 @@ mysql -u root -p prods < database/dump.sql
 mysql -u root -p -e "USE prods; SHOW TABLES;"
 
 # Model Training Guide  
-💻 **Training Models**  
+💻 Training Models  
 
 ## BERT Fine-tuning  
-1. **Modify these variables in `train-bert.py`:**  
+1. Modify these variables in `train-bert.py`:  
 ```python  
 checkpoint = "bert-base-cased"  # Pre-trained model  
 data_path = "dataset/dataset-all.csv"  # Dataset path  
