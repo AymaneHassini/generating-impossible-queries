@@ -21,7 +21,7 @@ cd generating-impossible-queries
 pip install -r requirements.txt
 
 # Configure environment
-cp .env.example .env  # Update with your API keys and DB credentials
+cp .ENV.example .ENV  # Update with your API keys and DB credentials
 
 🗃️ Database Setup
 # Create MySQL database
@@ -38,7 +38,6 @@ mysql -u root -p -e "USE prods; SHOW TABLES;"
 
 ## BERT Fine-tuning  
 1. Modify these variables in `train-bert.py`:  
-```python  
 checkpoint = "bert-base-cased"  # Pre-trained model  
 data_path = "dataset/dataset-all.csv"  # Dataset path  
 num_epochs = 10  # Training epochs  
@@ -49,8 +48,6 @@ python train-bert.py
 
 DistilBERT Training
 Edit train-distilbert.py similarly:
-python
-Copy
 checkpoint = "distilbert-base-cased"  # Pre-trained model  
 data_path = "dataset/dataset-all.csv"  # Dataset path  
 num_epochs = 10  # Training epochs  
@@ -74,9 +71,9 @@ text,labels
 generating-impossible-queries/
 ├── database/
 │   ├── connect.py           # MySQL connection handler
-│   └── dump.sql             # Database schema + sample data
+│   └── dump-example-database.sql   # Database schema + sample data
 ├── docs/
-│   └── images/              # Architecture diagrams
+│   └── images/              # Pipeline Architecture
 ├── examples/
 │   └── pipeline_example.ipynb  # Full workflow demo
 ├── src/
