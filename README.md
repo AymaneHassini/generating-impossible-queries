@@ -59,7 +59,7 @@ The interactive Jupyter notebook `pipeline_example.ipynb` demonstrates the entir
 ## Environment Variables
 Create a new .env file by copying the example template:
 ```bash
-cp .env_example .env
+cp .ENV.example .env
 ```
 Edit the .env file to include your own configuration values such as API keys and database credentials.
 
