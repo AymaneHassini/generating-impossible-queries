@@ -53,8 +53,19 @@ The interactive Jupyter notebook `pipeline_example.ipynb` demonstrates the entir
 │   ├── image.py
 │   └── text.py
 ├── README.md
+├── .ENV.example
 └── requirements.txt
 ```
+## Environment Variables
+Create a new .env file by copying the example template:
+```bash
+cp .env_example .env
+```
+Edit the .env file to include your own configuration values such as API keys and database credentials.
+
+
+## Checkpoints
+Checkpoint Folder can be downloaded from the [releases]().
 
 ## Pipeline Usage
 
