@@ -6,21 +6,19 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 import os
 import wandb
+import argparse
 
-wandb.init(
-    project="impossible-querry-pipeline",
-    name="gemini-bert"
-)
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-device
-
-checkpoint = "bert-base-cased"
-
-data_path = "../dataset/dataset-macth-score.csv"
-df = pd.read_csv(data_path)
-df['text'] = df['text'].apply(lambda x: x.replace('\n', '').replace('*', ''))
-
+def get_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data_path", type=str, default="../dataset/dataset-macth-score.csv")
+    parser.add_argument("--checkpoint", type=str, default="bert-base-cased")
+    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--epochs", type=int, default=2)
+    parser.add_argument("--learning_rate", type=float, default=5e-4)
+    parser.add_argument("--weight_decay", type=float, default=5e-4)
+    parser.add_argument("--output_dir", type=str, default="train-checkpoints")
+    return parser
 
 def compute_metrics(pred):
     """
@@ -58,20 +56,6 @@ def compute_metrics(pred):
         'Precision': precision,
         'Recall': recall
     }
-
-labels = df['labels'].unique().tolist()
-labels.sort()
-id2label = {i: label for i, label in enumerate(labels)}
-label2id = {label: i for i, label in enumerate(labels)}
-
-
-train_texts, val_texts, train_labels, val_labels = train_test_split(
-    df['text'], df['labels'], test_size=0.2
-)
-
-tokenizer = BertTokenizerFast.from_pretrained(checkpoint, max_length=512)
-train_encodings = tokenizer(list(train_texts), truncation=True, padding=True, return_tensors="pt")
-val_encodings = tokenizer(list(val_texts), truncation=True, padding=True, return_tensors="pt")
 
 class CustomDataset(Dataset):
     """
@@ -113,41 +97,82 @@ class CustomDataset(Dataset):
         """
         return len(self.labels)
 
-train_dataset = CustomDataset(train_encodings, train_labels)
-val_dataset = CustomDataset(val_encodings, val_labels)
 
-num_labels = len(label2id)
-model = BertForSequenceClassification.from_pretrained(
-    checkpoint,
-    num_labels=num_labels,
-    id2label=id2label,
-    label2id=label2id
-).to(device)
+if __name__ == "__main__":
+    wandb.init(
+        project="impossible-querry-pipeline",
+        name="gemini-bert"
+    )
 
-training_args = TrainingArguments(
-      "train-checkpoints", 
-      num_train_epochs=10, 
-      eval_strategy="steps", 
-      weight_decay=5e-4, 
-      per_device_train_batch_size=32,
-      per_device_eval_batch_size=32,
-      save_strategy="steps",
-      logging_steps=50,
-      load_best_model_at_end=True,
-    #   report_to="wandb",
-)
+    device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
+    print(device)
 
-trainer = Trainer(
-    # the pre-trained model that will be fine-tuned
-    model=model,
-     # training arguments that we defined above
-    args=training_args,
-    train_dataset=train_dataset,
-    eval_dataset=val_dataset,
-    compute_metrics= compute_metrics
-)
+    args = get_parser().parse_args()
 
-trainer.train()
+    checkpoint = args.checkpoint
+    data_path = args.data_path
+    batch_size = args.batch_size
+    epochs = args.epochs
+    learning_rate = args.learning_rate
+    weight_decay = args.weight_decay
+    output_dir = args.output_dir
 
-tokenizer.save_pretrained("train-checkpoints/best-model")
-trainer.save_model("train-checkpoints/best-model")
+    print(f"Loading data from {data_path}")
+    df = pd.read_csv(data_path)
+    df['text'] = df['text'].apply(lambda x: x.replace('\n', ' ').replace('*', '')) 
+
+
+    labels = df['labels'].unique().tolist()
+    labels.sort()
+    id2label = {i: label for i, label in enumerate(labels)}
+    label2id = {label: i for i, label in enumerate(labels)}
+
+
+    train_texts, val_texts, train_labels, val_labels = train_test_split(
+        df['text'], df['labels'], test_size=0.2
+    )
+
+    print(f"Train size: {len(train_texts)}")
+    print(f"Val size: {len(val_texts)}")
+    tokenizer = BertTokenizerFast.from_pretrained(checkpoint, max_length=512)
+    train_encodings = tokenizer(list(train_texts), truncation=True, padding=True, return_tensors="pt")
+    val_encodings = tokenizer(list(val_texts), truncation=True, padding=True, return_tensors="pt")
+
+
+
+    train_dataset = CustomDataset(train_encodings, train_labels)
+    val_dataset = CustomDataset(val_encodings, val_labels)
+
+    num_labels = len(label2id)
+    model = BertForSequenceClassification.from_pretrained(
+        checkpoint,
+        num_labels=num_labels,
+        id2label=id2label,
+        label2id=label2id
+    ).to(device)
+
+    training_args = TrainingArguments(
+        output_dir, 
+        num_train_epochs=epochs, 
+        eval_strategy="steps", 
+        weight_decay=weight_decay, 
+        per_device_train_batch_size=batch_size,
+        per_device_eval_batch_size=batch_size,
+        save_strategy="steps",
+        logging_steps=50,
+        load_best_model_at_end=True,
+        #   report_to="wandb",
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        compute_metrics= compute_metrics
+    )
+
+    trainer.train()
+
+    tokenizer.save_pretrained(os.path.join(output_dir, "best-model"))
+    trainer.save_model(os.path.join(output_dir, "best-model"))
