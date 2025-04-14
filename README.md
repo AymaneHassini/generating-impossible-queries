@@ -65,7 +65,7 @@ Edit the .env file to include your own configuration values such as API keys and
 
 
 ## Checkpoints
-Checkpoint Folder can be downloaded from the [releases]().
+Checkpoint Folder can be downloaded from the [releases](https://github.com/AymaneHassini/generating-impossible-queries/releases).
 
 ## Pipeline Usage
 
